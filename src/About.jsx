@@ -1,23 +1,14 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
 
-const divStyle = {
-    color:'white'
+const About = () => {
+  return (
+    <section className="About">
+      <h1>This is the About page</h1>
+      <Link to="/contact">Contact</Link>
+      <a href="https://google.com">Google</a>
+    </section>
+  );
 };
-
-class About extends React.Component {
-    
-    render() {
-        return (
-            <div style={divStyle}>
-                <h2>About Page</h2>
-                <main>
-                    <p>This section contains information about...</p>
-                </main>
-            </div>
-        )
-    }
-}
-
-
 
 export default About;

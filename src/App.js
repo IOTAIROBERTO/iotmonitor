@@ -1,56 +1,60 @@
-import './App.css';
-import React from 'react'; 
-import About from './About';
-import Home from './Home';  
-import { Routes, Route, Link } from 'react-router-dom';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+  Link,
+  useRouteMatch
+} from "react-router-dom";
+import Home from "./Home";
+import About from "./About";
+import Campaign from "./campaign";
+import { StyledLink } from "./styles";
 
-class App extends React.Component {
-  render() {
-      return (
-        <div className="App">
-          <div>
-            <nav>
-              <ul id="navigation">
-                <li>
-                <Link to="/">Home</Link>
-                </li>
-                <li>
-                <Link to="/about">About</Link>
-                </li>
-                <li>
-                <Link to="/contact">Contact</Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-            <Routes>
+function CampaignLink({ label, to, activeOnlyWhenExact }) {
+  let match = useRouteMatch({
+    path: to,
+    exact: activeOnlyWhenExact
+  });
 
-            <Route exact path="/">
-              <Home />
-            </Route>
-
-            <Route path="/about">
-              <About />
-            </Route>
-
-          </Routes>
-        </div>
-      );
-  }
+  return (
+    <div className={match ? "active" : ""}>
+      {match && "*** "}
+      <Link to={to}>{label}</Link>
+    </div>
+  );
 }
 
+const App = () => {
+  return (
+    <section className="App">
+      <Router>
+        <nav>
+          <StyledLink to="/">Home</StyledLink>
+          <StyledLink to="/about-us">About us</StyledLink>
+          <StyledLink to="/contact">Contact</StyledLink>
+          <CampaignLink
+            activeOnlyWhenExact={true}
+            to="/campaign"
+            label="Campaign"
+          />
+        </nav>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/about-us">
+            <About />
+          </Route>
+          <Route path="/contact" render={() => <Redirect to="/" />} />
+          <Route path="/campaign">
+            <Campaign title={`This is the title of the Campaign page`} />
+          </Route>
+        </Switch>
+      </Router>
+    </section>
+  );
+};
+
 export default App;
-
-/*
-
-You also need to update the Route declaration from
-
-<Route path="/" component={Home} />
-to
-
-<Route path='/' element={<Home/>} />
-
-<Route exact path="/">
-<Home />
-</Route>
-<Route path="/about">*/
