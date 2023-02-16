@@ -1,23 +1,31 @@
 // App.js
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route, Routes
+} from "react-router-dom";
 import { useState } from "react";
 import { data } from "./utils/Data";
 import PieChart from "./components/PieChart";
 import BarChart from "./components/BarChart";
 import LineChart from "./components/LineChart";
 import RadarChart from "./components/RadarChart";
-import "./App.css";
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route, Routes
-} from "react-router-dom";
+import {fetchData} from './utils/AwsFunctions';
 import Home from "./Home";
 import About from "./About"; 
 import Contact from "./Contact"; 
 import { StyledLink } from "./styles";   
 import Chart from 'chart.js/auto';  
 
+import "./App.css";
+
 export default function App() {
+
+  const fetchDataFormDynamoDb = () => {
+    fetchData('users')
+  }
+  
+
   const [chartData, setChartData] = useState({
     labels: data.map((data) => data.year), 
     datasets: [
@@ -39,6 +47,9 @@ export default function App() {
 
   return (
     <>
+      <button onClick={() => fetchDataFormDynamoDb()}> Fetch </button>
+      console.log(fetchDataFormDynamoDb);
+
       <section className="App">
       <Router>
         <nav>
@@ -60,7 +71,6 @@ export default function App() {
         <LineChart chartData={chartData} />
         <RadarChart chartData={chartData} />
       </div>
-    </>
-    
+    </> 
   );
 } 

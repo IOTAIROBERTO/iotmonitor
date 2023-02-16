@@ -7,9 +7,9 @@ import * as AWS from 'aws-sdk'
 import { ConfigurationOptions } from 'aws-sdk'
 
 var configuration = {
-    region: 'us-east-2',
-    secretAccessKey: 'AKIAVTQBHSP3X5PFALPM',
-    accessKeyId: 'K1iIvq4tpCZoKL2X5pYlIK1XzikJF/VtPfQ9FSiL'
+    region: 'us-east-2', 
+    secretAccessKey: 'knqJ2Uuu55dRCsx5tIJmaX3RitnX8GivOjnCr6/y',
+    accessKeyId: 'AKIAVTQBHSP3RTMNIJPU'
 };
 
 AWS.config.update(configuration)
