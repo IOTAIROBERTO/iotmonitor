@@ -13,3 +13,5 @@ export const fetchData = (tableName) => {
         }
     })
 }
+
+export default fetchData;

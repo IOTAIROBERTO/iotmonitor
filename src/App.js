@@ -4,12 +4,12 @@ import {
   BrowserRouter as Router,
   Route, Routes
 } from "react-router-dom";
-import { useState } from "react";
-import { data } from "./utils/Data";
+import { useState } from "react"; 
 import PieChart from "./components/PieChart";
 import BarChart from "./components/BarChart";
 import LineChart from "./components/LineChart";
-import RadarChart from "./components/RadarChart";
+import RadarChart from "./components/RadarChart"; 
+import { data } from "./utils/Data";
 import {fetchData} from './utils/AwsFunctions';
 import Home from "./Home";
 import About from "./About"; 
@@ -23,8 +23,7 @@ export default function App() {
 
   const fetchDataFormDynamoDb = () => {
     fetchData('users')
-  }
-  
+  } 
 
   const [chartData, setChartData] = useState({
     labels: data.map((data) => data.year), 
