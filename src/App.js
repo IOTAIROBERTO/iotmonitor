@@ -22,7 +22,7 @@ import "./App.css";
 export default function App() {
 
   const fetchDataFormDynamoDb = () => {
-    fetchData('users')
+    fetchData('wx_data')
   } 
 
   const [chartData, setChartData] = useState({
