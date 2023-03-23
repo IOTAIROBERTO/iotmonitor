@@ -44,10 +44,14 @@ export default function App() {
     ]
   });
 
+    console.log("Hello World");
+    console.log(fetchDataFormDynamoDb); 
+
   return (
     <>
-      <button onClick={() => fetchDataFormDynamoDb()}> Fetch </button>
-      console.log(fetchDataFormDynamoDb);
+    <div className="FetchData">
+    <button onClick={() => fetchDataFormDynamoDb()}> Fetch </button>
+    </div>
 
       <section className="App">
       <Router>
@@ -63,7 +67,7 @@ export default function App() {
         </Routes> 
       </Router>
     </section>  
-
+    
       <div className="App">
         <PieChart chartData={chartData} /> 
         <BarChart chartData={chartData} />      
