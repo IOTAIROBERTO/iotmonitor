@@ -1,17 +1,54 @@
-import * as AWS from 'aws-sdk'
+import React from "react";
+import ReactDOM from "react-dom"; 
+import App from "../App"; 
+import * as AWS from "aws-sdk"; 
+import { DynamoDB } from "aws-sdk"
 
-const docClient = new AWS.DynamoDB.DocumentClient()
 
-export const fetchData = (tableName) => {
+
+//const dynamodb = new AWS.DynamoDB();
+
+export const fetchData = (tableName) => {   
+
+    // var configuration = {
+    //     region: 'us-east-2', 
+    //     secretAccessKey: 'r+JP4UyNPByzTiKNZc5z5KyUDBhxS6pkUnPFIzVR',
+    //     accessKeyId: 'AKIAVTQBHSP373NE63NH'
+    // };
+    
+    // AWS.config.update(configuration);
+
+    const dynamodb = new DynamoDB({ 
+        region: 'us-east-2', 
+        secretAccessKey: 'r+JP4UyNPByzTiKNZc5z5KyUDBhxS6pkUnPFIzVR',
+        accessKeyId: 'AKIAVTQBHSP373NE63NH'
+      });
+      
+   dynamodb.listTables({}, (err, data)=>{
+       if(err) {
+           console.log(err);
+       } else {
+           console.log(data);
+       }
+    });
+   
     var params = {
         TableName: tableName
     }
 
-    docClient.scan(params, function (err, data) {
+    dynamodb.scan(params, function (err, data) {
         if (!err) {
             console.log(data)
         }
-    })
-}
+    });
+} 
 
-export default fetchData;
+const rootElement = document.getElementById("root");
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  rootElement
+); 
+
+export default fetchData;  
