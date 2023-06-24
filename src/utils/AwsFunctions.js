@@ -2,21 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom"; 
 import App from "../App"; 
 import * as AWS from "aws-sdk"; 
-import { DynamoDB } from "aws-sdk"
+import { DynamoDB } from "aws-sdk";
 
-
-
-//const dynamodb = new AWS.DynamoDB();
-
-export const fetchData = (tableName) => {   
-
-    // var configuration = {
-    //     region: 'us-east-2', 
-    //     secretAccessKey: 'r+JP4UyNPByzTiKNZc5z5KyUDBhxS6pkUnPFIzVR',
-    //     accessKeyId: 'AKIAVTQBHSP373NE63NH'
-    // };
-    
-    // AWS.config.update(configuration);
+export const fetchData = (tableName) => {    
 
     const dynamodb = new DynamoDB({ 
         region: 'us-east-2', 
