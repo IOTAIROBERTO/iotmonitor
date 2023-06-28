@@ -42,7 +42,8 @@ export default function App() {
         borderWidth: 2
       }
     ]
-  });
+  }); 
+
 
   console.log("Hello World");
   console.log(fetchDataFormDynamoDb); 
@@ -51,30 +52,13 @@ export default function App() {
     <>
     <div className="FetchData">
     <button onClick={() => fetchDataFormDynamoDb()}> Fetch </button>
-    </div>
-    </> );
+    </div> 
   
-  //      <section className="App">
-  //      <Router>
-  //        <nav>
-  //          <StyledLink to="/">Home</StyledLink>
-  //          <StyledLink to="/about-us">About us</StyledLink>
-  //          <StyledLink to="/contact">Contact</StyledLink>  
-  //        </nav> 
-  //        <Routes>
-  //          <Route path="/" element={<Home />} />
-  //          <Route path="/about-us" element={<About />} />
-  //          <Route path="/contact" element={<Contact />} /> 
-  //        </Routes> 
-  //      </Router>
-  //    </section>  
-  
-  //      <div className="App">
-  //        <PieChart chartData={chartData} /> 
-  //        <BarChart chartData={chartData} />      
-  //        <LineChart chartData={chartData} />
-  //        <RadarChart chartData={chartData} />
-  //      </div>
-  //    </> 
-  //  );
-} 
+       <div className="App">
+         <PieChart chartData={chartData} /> 
+         <BarChart chartData={chartData} />      
+         <LineChart chartData={chartData} />
+         <RadarChart chartData={chartData} />
+       </div>
+       </> );
+}
