@@ -24,8 +24,7 @@ export const fetchData = (tableName) => {
     });*/
 
     var params = {
-        TableName: tableName,
-        Key:"payload"
+        TableName: tableName
     }
 
     dynamodb.getItem(params, function(err, data) {
@@ -36,7 +35,7 @@ export const fetchData = (tableName) => {
       
         } else {
       
-          console.log("Success", data);
+          console.log("Success", "payload");
       
         }
       
