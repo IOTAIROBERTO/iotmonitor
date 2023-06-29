@@ -27,19 +27,28 @@ export const fetchData = (tableName) => {
         TableName: tableName
     }
 
-    dynamodb.getItem(params, function(err, data) {
-
-        if (err) {
-      
-          console.log("Error", err);
-      
-        } else {
-      
-          console.log("Success", data);
-      
+    var params = {
+        RequestItems: {
+            tableName: {
+            Keys: [
+              {'payload': {S: 'KEY_VALUE_1'}}
+            ],
+            ProjectionExpression: 'KEY_NAME, ATTRIBUTE'
+          }
         }
+      };
+
+    dynamodb.batchGetItem(params, function(err, data) 
+    {  
+                if (err) {
+                  console.log("Error", err);
+                } else {
+                  data.Responses.TABLE_NAME.forEach(function(element, index, array) {
+                    console.log(element);
+                  });
+                }   
       
-      });
+    });
 
       /*
     dynamodb.scan(params, function (err, data) {
