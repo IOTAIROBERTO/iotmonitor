@@ -24,11 +24,10 @@ export const fetchData = (tableName) => {
     });*/
 
     var params = {
-        TableName: tableName,
-        Key:{"payload":payload}
+        TableName: tableName
     }
 
-    dynamodb.batchGetItem(params, function(err, data) {
+    dynamodb.getItem(params, function(err, data) {
 
         if (err) {
       
@@ -36,7 +35,7 @@ export const fetchData = (tableName) => {
       
         } else {
       
-          console.log("Success", data);
+          console.log("Success", "payload");
       
         }
       
