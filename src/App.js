@@ -9,8 +9,8 @@ import PieChart from "./components/PieChart";
 import BarChart from "./components/BarChart";
 import LineChart from "./components/LineChart";
 import RadarChart from "./components/RadarChart"; 
-import { data } from "./utils/Data";
-import {fetchData} from './utils/AwsFunctions';
+import { data } from "./utils/Data.js";
+import {fetchData} from './utils/AwsFunctions_.js';
 import Home from "./Home";
 import About from "./About"; 
 import Contact from "./Contact"; 
@@ -20,7 +20,6 @@ import Chart from 'chart.js/auto';
 import "./App.css";
 
 export default function App() {
-
    const fetchDataFormDynamoDb = () => {
      fetchData('iotmonitor');
   };
@@ -42,11 +41,7 @@ export default function App() {
         borderWidth: 2
       }
     ]
-  }); 
-
-
-  console.log("Hello World");
-  console.log(fetchDataFormDynamoDb); 
+  });
 
   return (
     <>

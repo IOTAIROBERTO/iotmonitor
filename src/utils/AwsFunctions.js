@@ -25,18 +25,7 @@ export const fetchData = (tableName) => {
 
     var params = {
         TableName: tableName
-    }
-
-    var params = {
-        RequestItems: {
-            tableName: {
-            Keys: [
-              {'payload': {S: 'KEY_VALUE_1'}}
-            ],
-            ProjectionExpression: 'KEY_NAME, ATTRIBUTE'
-          }
-        }
-      };
+    } 
 
     dynamodb.batchGetItem(params, function(err, data) 
     {  
