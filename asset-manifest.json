@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/iotmonitor/static/css/main.2d055ac2.css",
-    "main.js": "/iotmonitor/static/js/main.e41c510f.js",
+    "main.js": "/iotmonitor/static/js/main.bece0120.js",
     "index.html": "/iotmonitor/index.html",
     "main.2d055ac2.css.map": "/iotmonitor/static/css/main.2d055ac2.css.map",
-    "main.e41c510f.js.map": "/iotmonitor/static/js/main.e41c510f.js.map"
+    "main.bece0120.js.map": "/iotmonitor/static/js/main.bece0120.js.map"
   },
   "entrypoints": [
     "static/css/main.2d055ac2.css",
-    "static/js/main.e41c510f.js"
+    "static/js/main.bece0120.js"
   ]
 }
