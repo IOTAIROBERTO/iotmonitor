@@ -1,7 +1,5 @@
-console.log(ddbData) 
-
 // utils/Data.js
-export const data = [
+export const data = [ 
     {
       id: 1,
       year: 2016,
