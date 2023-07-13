@@ -1,4 +1,5 @@
 // App.js
+'use strict';
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -22,73 +23,92 @@ const AWS = require('aws-sdk');
 var DynamoDB = require('aws-sdk/clients/dynamodb'); //This doesn't work, I get an undefined error below
 
 export default function App() {
-  
-  //const fetchDataFormDynamoDb = () => {
-  //   fetchData('iotmonitor');     
-  //};
 
-  var ddbDocClient = new DynamoDB.DocumentClient({region: "us-east-2", accessKeyId: 'AKIAVTQBHSP373NE63NH', secretAccessKey: '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' }); 
+  let ddbDocClient = new DynamoDB.DocumentClient({ region: "us-east-2", accessKeyId: 'AKIAVTQBHSP373NE63NH', secretAccessKey: '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' });
+  var results = {};
+  var ddbData = {};
 
-  ddbDocClient.scan({
-    TableName: "iotmonitor"
-  })
-  .promise()
-  .then(data => setOutput(JSON.stringify(data))) //console.log(JSON.stringify(data.Items)))
-  .catch(console.error)  
+  fetchDataFormDynamoDb();
 
- const setOutput = (rows) => 
- { 
-     const ddbData = JSON.parse(rows);
-    console.log("ddbData: " + ddbData);
-   console.log(ddbData)
-   console.log(typeof ddbData) 
-   console.log(JSON.stringify(ddbData))
-   console.log(typeof JSON.stringify(ddbData)) 
+  async function fetchDataFormDynamoDb() {
+    let params = {
+      TableName: 'iotmonitor',
+      Limit: 10
+    }
 
-  let iterationCount = 0;
-  for (let i = 0; i < 20; i += 1) {  
-      console.log(ddbData['Items'][i]['payload'].bearing);   
-  } 
-}
+    let result = await ddbDocClient.scan(params).promise().then((data) => {
+      return data
+    })
 
-  const data = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
-  ];
+    // Now you can use result outside of the promise.
+    console.log(JSON.stringify(result))
+    ddbData = JSON.parse(JSON.stringify(result));
+    console.log(ddbData);
 
-  const [chartData] = useState({
-     labels: data.map((data) => data.year), 
-     datasets: [
-       {
-         label: "Users Gained ",
-         data: data.map((data) => data.count),
-         backgroundColor: [
-           "rgba(75,192,192,1)",
-           "#ecf0f1",
-           "#50AF95",
-           "#f3ba2f",
-           "#2a71d0"
-         ],
-         borderColor: "black",
-         borderWidth: 2
-       }
-     ]
-   });
+    console.log(ddbData['Items'][0]['payload'].bearing);
+
+    const data = [
+      { count: 1, bearing: ddbData['Items'][0]['payload'].bearing },
+      { count: 2, bearing: ddbData['Items'][1]['payload'].bearing },
+      { count: 3, bearing: ddbData['Items'][2]['payload'].bearing },
+      { count: 4, bearing: ddbData['Items'][3]['payload'].bearing },
+      { count: 5, bearing: ddbData['Items'][4]['payload'].bearing },
+      { count: 6, bearing: ddbData['Items'][5]['payload'].bearing },
+      { count: 7, bearing: ddbData['Items'][6]['payload'].bearing },
+    ];
+
+    //var ctx = document.getElementById('myChart'); // node
+    var ctx = document.getElementById('myChart').getContext('2d'); // 2d context
+    //var ctx = 'myChart'; // element id
+
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.map((data) => data.count),
+        datasets: [
+          {
+            label: 'Acquisitions by year',
+            data: data.map((data) => data.bearing),
+            backgroundColor: [
+              "rgba(75,192,192,1)",
+              "#ecf0f1",
+              "#50AF95",
+              "#f3ba2f",
+              "#2a71d0"
+            ],
+            borderColor: "black",
+            borderWidth: 2
+          }
+        ]
+      }
+    }
+    );
+
+    // const [chartData] = useState({
+    //   labels: data.map((data) => data.count),
+    //   datasets: [
+    //     {
+    //       label: "Users Gained ",
+    //       data: data.map((data) => data.year),
+
+    //     }
+    //   ]
+    // });
+
+    //for (let i = 0; i < ddbData.length; i += 1) { 
+    // console.log(ddbData['Items'][i]['payload'].bearing);
+    // }
+
+  };
+  //console.log(chartData);
 
   return (
-    <> 
-  
-       <div className="App">
-         <LineChart chartData={chartData} />
-         {/* <PieChart chartData={chartData} /> 
-         <BarChart chartData={chartData} />      
-         <RadarChart chartData={chartData} /> */}
-       </div>
-       </> );
-       
+    <>
+      <canvas id="myChart" width="400" height="400"></canvas>
+
+      <div className="App">
+        {/*<LineChart chartData={chartData} />*/}
+      </div>
+    </>
+  );
 }
