@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/iotmonitor/static/js/main.9195bf74.js",
+    "main.js": "/iotmonitor/static/js/main.be7b04dc.js",
     "index.html": "/iotmonitor/index.html",
-    "main.9195bf74.js.map": "/iotmonitor/static/js/main.9195bf74.js.map"
+    "main.be7b04dc.js.map": "/iotmonitor/static/js/main.be7b04dc.js.map"
   },
   "entrypoints": [
-    "static/js/main.9195bf74.js"
+    "static/js/main.be7b04dc.js"
   ]
 }
