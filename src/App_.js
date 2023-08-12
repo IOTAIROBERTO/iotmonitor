@@ -30,7 +30,6 @@ export default function App()
   let configuration = 0;
   var ctx;
   let myChart;
-
   let params = {
     TableName: 'iotaimonitor',
     KeyConditionExpression: 'id = :hashKey',
@@ -44,29 +43,48 @@ export default function App()
   //setTimeout(fetchDataFormDynamoDb(), 1500);
   fetchDataFormDynamoDb()
 
-  async function fetchDataFormDynamoDb() 
-  {  
+  async function fetchDataFormDynamoDb() {  
+
+    DynamoDB.scan({
+      TableName: "iotmonitor"
+    })
+    .promise()
+    .then(data => setOutput(JSON.stringify(data))) //console.log(JSON.stringify(data.Items)))
+    .catch(console.error)  
+    const setOutput = (rows) => 
+    { 
+      const ddbData = JSON.parse(rows);
+      console.log("ddbData: " + ddbData);
+      console.log(ddbData)
+      console.log(typeof ddbData) 
+      console.log(JSON.stringify(ddbData))
+      console.log(typeof JSON.stringify(ddbData)) 
+   
+     let iterationCount = 0;
+     for (let i = 0; i < 20; i += 1) {  
+         console.log(ddbData['Items'][i]['payload'].bearing);   
+     } 
+   }
+   
     ddbData = await DynamoDB.query(params).promise().then((data) => {    
       return data;
     })   
-
-    for (let i = 0; i < 4; i += 1)  console.log(ddbData['Items'][i]['record'].N);         
-
-    for (let i = 0; i < 4; i += 1)  console.log(ddbData['Items'][i]['payload']['M']['bearing'].N);        
     
+    //ddbData = JSON.parse(JSON.stringify(ddbData));
+    ddbData = JSON.stringify(ddbData);
     console.log(ddbData);  
 
-    data = [ 
-       { count: new Date(ddbData['Items'][0]['record'].N*1000).toLocaleString(), bearing: ddbData['Items'][0]['payload']['M']['bearing'].N}, 
-       { count: new Date(ddbData['Items'][1]['record'].N*1000).toLocaleString(), bearing: ddbData['Items'][1]['payload']['M']['bearing'].N},
-       { count: new Date(ddbData['Items'][2]['record'].N*1000).toLocaleString(), bearing: ddbData['Items'][2]['payload']['M']['bearing'].N},
-       { count: new Date(ddbData['Items'][3]['record'].N*1000).toLocaleString(), bearing: ddbData['Items'][3]['payload']['M']['bearing'].N},
-       { count: new Date(ddbData['Items'][4]['record'].N*1000).toLocaleString(), bearing: ddbData['Items'][4]['payload']['M']['bearing'].N}
+    data = [
+       { count: (ddbData['Items'][0]['record'][0]).toLocaleString(), bearing: 0}, 
+       { count: (ddbData['Items'][1]['record'][0]).toLocaleString(), bearing: 0 },
+       { count: (ddbData['Items'][2]['record'][0]).toLocaleString(), bearing: 0},
+       { count: (ddbData['Items'][3]['record'][0]).toLocaleString(), bearing: 0 },
+       { count: (ddbData['Items'][4]['record'][0]).toLocaleString(), bearing: 0 }
     ];
  
     console.log(data);  
 
-    ctx = document.getElementById('myChart').getContext('2d');
+    ctx = document.getElementById('myChart').getContext('2d'); // 2d context 
     configuration = {
       type: 'line',
       data: {
