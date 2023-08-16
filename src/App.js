@@ -22,59 +22,66 @@ import "./App.css";
 const AWS = require('aws-sdk');   
 const DynamoDB = new AWS.DynamoDB({ region: "us-east-2", accessKeyId: 'AKIAVTQBHSP373NE63NH', secretAccessKey: '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' });
 const { /*marshall,*/ unmarshall } = require("@aws-sdk/util-dynamodb");
+let myChart = null;
 
 export default function App() 
 {
   var ddbData = {}; 
   var data = {};
-  let configuration = 0;
   var ctx;
-  let myChart;
+  let configuration = 0;  
 
   let params = {
     TableName: 'iotaimonitor',
     KeyConditionExpression: 'id = :hashKey',
     ExpressionAttributeValues: {
-      ":hashKey": {"S": "8/8/2023"}
+      ":hashKey": {"S": "raspberry"}
     },
     Limit: 5,
     ScanIndexForward: false
   }   
-
-  //setTimeout(fetchDataFormDynamoDb(), 1500);
-  fetchDataFormDynamoDb()
+ 
+  setInterval(fetchDataFormDynamoDb, 1500);
+  //fetchDataFormDynamoDb()
 
   async function fetchDataFormDynamoDb() 
-  {  
-    ddbData = await DynamoDB.query(params).promise().then((data) => {    
-      return data;
-    })   
+  {
+    // ddbData = await DynamoDB.query(params).promise().then((data,err) => {    
+    // console.log(data,err);  
+    //   return data;
+    // });   
+ 
+      try { 
+          ddbData = await DynamoDB.query(params).promise() 
+      } catch (error) {
+          console.error(error);
+      } 
+  
 
-    for (let i = 0; i < 4; i += 1)  console.log(ddbData['Items'][i]['record'].N);         
-
-    for (let i = 0; i < 4; i += 1)  console.log(ddbData['Items'][i]['payload']['M']['bearing'].N);        
-    
-    console.log(ddbData);  
+    //for (let i = 0; i < 4; i += 1)  console.log(ddbData['Items'][i]['record'].N);         
+    //for (let i = 0; i < 4; i += 1)  console.log(parseFloat(ddbData['Items'][i]['payload']['M']['distance'].S));        
+    //console.log(ddbData);  
 
     data = [ 
-       { count: new Date(ddbData['Items'][0]['record'].N*1000).toLocaleString(), bearing: ddbData['Items'][0]['payload']['M']['bearing'].N}, 
-       { count: new Date(ddbData['Items'][1]['record'].N*1000).toLocaleString(), bearing: ddbData['Items'][1]['payload']['M']['bearing'].N},
-       { count: new Date(ddbData['Items'][2]['record'].N*1000).toLocaleString(), bearing: ddbData['Items'][2]['payload']['M']['bearing'].N},
-       { count: new Date(ddbData['Items'][3]['record'].N*1000).toLocaleString(), bearing: ddbData['Items'][3]['payload']['M']['bearing'].N},
-       { count: new Date(ddbData['Items'][4]['record'].N*1000).toLocaleString(), bearing: ddbData['Items'][4]['payload']['M']['bearing'].N}
+       { record: new Date(ddbData['Items'][4]['record'].N*1000).toLocaleString(), distance: parseFloat(ddbData['Items'][4]['payload']['M']['distance'].S)}, 
+       { record: new Date(ddbData['Items'][3]['record'].N*1000).toLocaleString(), distance: parseFloat(ddbData['Items'][3]['payload']['M']['distance'].S)},
+       { record: new Date(ddbData['Items'][2]['record'].N*1000).toLocaleString(), distance: parseFloat(ddbData['Items'][2]['payload']['M']['distance'].S)},
+       { record: new Date(ddbData['Items'][1]['record'].N*1000).toLocaleString(), distance: parseFloat(ddbData['Items'][1]['payload']['M']['distance'].S)},
+       { record: new Date(ddbData['Items'][0]['record'].N*1000).toLocaleString(), distance: parseFloat(ddbData['Items'][0]['payload']['M']['distance'].S)}
     ];
- 
-    console.log(data);  
+  
+    console.log(data);    
+    
+    ctx = document.getElementById("myChart").getContext('2d');
 
-    ctx = document.getElementById('myChart').getContext('2d');
     configuration = {
       type: 'line',
       data: {
-        labels: data.map((data) => data.count),
+        labels: data.map((data) => data.record),
         datasets: [
           {
-            label: 'Acquisitions by year',
-            data: data.map((data) => data.bearing),
+            label: 'Distance',
+            data: data.map((data) => data.distance),
             backgroundColor: [
               "rgba(75,192,192,1)",
               "#ecf0f1",
@@ -82,25 +89,25 @@ export default function App()
               "#f3ba2f",
               "#2a71d0"
             ],
-            borderColor: "black",
-            borderWidth: 2
+            borderColor: "red",
+            borderWidth: 2, 
           }
         ]
-      }
-    };  
-
-    if (myChart) {
-      myChart.destroy();
-      myChart = new Chart(ctx, configuration);
-    } else {
-      myChart = new Chart(ctx, configuration);
+      },
+            options: {
+    animation: {
+        duration: 0
     }
+    }  
+  }
+    if(myChart != null) myChart.destroy();
+    myChart = new Chart(ctx, configuration);
   }
 
   return (
     <> 
       <div className="App">
-      <canvas id="myChart" width="400" height="400"></canvas> 
+      <canvas id="myChart" width="1024" height="512"></canvas> 
       </div>
     </>
   );
