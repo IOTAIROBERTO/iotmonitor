@@ -12,6 +12,7 @@
     "aws-sdk": "^2.1404.0",
     "chart.js": "^4.2.0",
     "dynamo-converters": "^8.0.3",
+    "easy-table": "^1.2.0",
     "flatted": "^3.2.7",
     "gh-pages": "^5.0.0",
     "moment": "^2.29.4",
